@@ -11,10 +11,9 @@ namespace ApiProducts.Library.Models
 
     public class InvCodigos : CodigoMin
     {
-        public int IdProducto { get; set; }
+        public int IdPedido { get; set; }
+        public int IdProducto { get; set; }        
         public string Codigo { get; set; }
-        public decimal Costo { get; set; }
-        public string Edicion { get; set; }
         public bool Estatus { get; set; }
         public DateTime? FechaActualizacion { get; set; }
         public DateTime? FechaCreacion { get; set; }
@@ -22,6 +21,7 @@ namespace ApiProducts.Library.Models
 
     public class Code : CodigoMin
     {
+        public int IdPedido { get; set; }
         public string Titulo { get; set; }
         public string Plataforma { get; set; }
         public string Genero { get; set; }

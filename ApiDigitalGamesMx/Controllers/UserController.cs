@@ -36,15 +36,29 @@ namespace ApiDigitalGamesMx.Controllers
         }
 
         [HttpPost]
-        public int InsertUser([FromBody] ApiProducts.Library.Models.User value)
+        public IActionResult InsertUser([FromBody] ApiProducts.Library.Models.User value)
         {
             int id = 0;
             var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
             using (IUser User = Factorizador.CrearConexionServicioUser(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
             {
                 id = User.InsertUser(value.Email,  Functions.GetSHA256(value.Contrasenia), value.NombreCompleto, value.Rol);
+
+                if (id > 0)
+                {
+                    return Ok(new
+                    {
+                        Id = id,
+                        Estatus = "success",
+                        Code = 200,
+                        Msg = "Usuario insertado correctamente!!"
+
+                    });
+                }
+
             }
-            return id;
+
+            return NotFound();
         }
     }
 }

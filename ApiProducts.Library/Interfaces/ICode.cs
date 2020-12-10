@@ -9,6 +9,8 @@ namespace ApiProducts.Library.Interfaces
         List<Models.Code> GetCodes();
         Models.Code GetCode(int id);
 
-        int InsertCode(int idProducto, string codigo, decimal costo, string edicion);
+        int InsertCode(int idPedido, int idProducto, string codigo);
+
+        Models.Code GetCodePedido(int id);
     }
 }

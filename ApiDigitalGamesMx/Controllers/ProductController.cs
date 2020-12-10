@@ -56,7 +56,7 @@ namespace ApiDigitalGamesMx.Controllers
 
                 return NotFound();
 
-            }            
+            }
         }
 
         [HttpPost]
@@ -67,7 +67,7 @@ namespace ApiDigitalGamesMx.Controllers
             var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
             using (IProduct Product = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
             {
-                id = Product.InsertProduct(value.Sku, value.Descripcion, value.IdPlataforma, value.IdGenero, value.IdGenero, value.Imagen, value.Titulo, value.FechaLanzamiento.ToString());
+                id = Product.InsertProduct(value.Sku, value.Titulo, value.Descripcion, value.IdPlataforma, value.IdGenero, value.IdGenero, value.Imagen, value.Imagen2, value.Imagen3, value.UrlVideo, value.Costo, value.PrecioVenta, value.Edicion, value.FechaLanzamiento.ToString());
 
                 if (id > 0)
                 {
@@ -77,6 +77,98 @@ namespace ApiDigitalGamesMx.Controllers
                         Estatus = "success",
                         Code = 200,
                         Msg = "Producto insertado correctamnete!!"
+
+                    });
+                }
+            }
+
+            return NotFound();
+
+        }
+
+        //https://localhost:44369/api/products/plataforma
+        // GET: api/<UserController>
+        //[HttpPost]
+        [HttpGet]
+        [Route("plataforma/{id}")]
+        //[Authorize]
+        public IEnumerable<ApiProducts.Library.Models.Producto> GetProductsPlataforma(int id)//[FromBody] ApiProducts.Library.Models.ProductoMin value
+        {
+            List<ApiProducts.Library.Models.Producto> listProducts = new List<ApiProducts.Library.Models.Producto>();
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            using (IProduct product = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            {
+                listProducts = product.GetProductsPlataforma(id);
+            }
+            return listProducts;
+        }
+
+        [HttpGet]
+        [Route("populares")]
+        //[Authorize]
+        public IEnumerable<ApiProducts.Library.Models.Producto> GetProductsPopulares(int id)//[FromBody] ApiProducts.Library.Models.ProductoMin value
+        {
+            List<ApiProducts.Library.Models.Producto> listProducts = new List<ApiProducts.Library.Models.Producto>();
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            using (IProduct product = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            {
+                listProducts = product.GetProductsPopulares();
+            }
+            return listProducts;
+        }
+
+        //https://localhost:44369/api/products/plataforma
+        // GET: api/<UserController>
+        //[HttpPost]
+        [HttpGet]
+        [Route("titulo/{criterio}")]
+        //[Authorize]
+        public IEnumerable<ApiProducts.Library.Models.Producto> GetProductsCriterio(string criterio)//[FromBody] ApiProducts.Library.Models.ProductoMin value
+        {
+            List<ApiProducts.Library.Models.Producto> listProducts = new List<ApiProducts.Library.Models.Producto>();
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            using (IProduct product = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            {
+                listProducts = product.GetProductsCriterio(criterio);
+            }
+            return listProducts;
+        }
+
+        //https://localhost:44369/api/products/plataforma
+        // GET: api/<UserController>
+        //[HttpPost]
+        [HttpGet]
+        [Route("wishlist/user/{id}")]
+        //[Authorize]
+        public IEnumerable<ApiProducts.Library.Models.Producto> GetProductsWishListUser(int id)//[FromBody] ApiProducts.Library.Models.ProductoMin value
+        {
+            List<ApiProducts.Library.Models.Producto> listProducts = new List<ApiProducts.Library.Models.Producto>();
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            using (IProduct product = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            {
+                listProducts = product.GetProductsWishListUser(id);
+            }
+            return listProducts;
+        }
+
+        [HttpPost]
+        [Route("wishlist")]
+        public IActionResult InsertProductWishList([FromBody] ApiProducts.Library.Models.WishListMin value)
+        {
+            int id = 0;
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            using (IProduct Product = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            {
+                id = Product.InsertProductWishList(value.IdCliente, value.IdProducto);
+
+                if (id > 0)
+                {
+                    return Ok(new
+                    {
+                        Id = id,
+                        Estatus = "success",
+                        Code = 200,
+                        Msg = "Producto insertado a WishList correctamnete!!"
 
                     });
                 }

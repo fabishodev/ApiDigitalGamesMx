@@ -99,6 +99,7 @@ namespace ApiProducts.Library.Services
                                 list.Add(new Code()
                                 {
                                     Id = Convert.ToInt32(jsonOperaciones["id"].ToString()),
+                                    IdPedido = Convert.ToInt32(jsonOperaciones["idPedido"].ToString()),
                                     Titulo = jsonOperaciones["titulo"].ToString(),                                   
                                     Plataforma = jsonOperaciones["plataforma"].ToString(),
                                     Genero = jsonOperaciones["genero"].ToString(),
@@ -161,16 +162,15 @@ namespace ApiProducts.Library.Services
 
 
 
-        public int InsertCode(int idProducto, string codigo, decimal costo, string edicion)
+        public int InsertCode(int idPedido, int idProducto, string codigo)
          {
             int IdCode = 0;
             List<SqlParameter> _Parametros = new List<SqlParameter>();
             try
             {
+                _Parametros.Add(new SqlParameter("@idPedido", idPedido));
                 _Parametros.Add(new SqlParameter("@idProducto", idProducto));
                 _Parametros.Add(new SqlParameter("@codigo", codigo));
-                _Parametros.Add(new SqlParameter("@costo", costo));
-                _Parametros.Add(new SqlParameter("@edicion", edicion));
                 //_Parametros.Add(new SqlParameter("@estatus", estatus));  
                 SqlParameter valreg = new SqlParameter();
                 valreg.ParameterName = "@Id";
@@ -190,6 +190,37 @@ namespace ApiProducts.Library.Services
             {
                 throw new Exception(ex.Message, ex);
             }
+        }
+
+        public Code GetCodePedido(int id)
+        {
+            Code code = new Code();
+            List<SqlParameter> _Parametros = new List<SqlParameter>();
+            try
+            {
+                _Parametros.Add(new SqlParameter("@idPedido", id));
+                sql.PrepararProcedimiento("dbo.[CODE.GetJSONPedido]", _Parametros);
+                DataTableReader dtr = sql.EjecutarTableReader(CommandType.StoredProcedure);
+                if (dtr.HasRows)
+                {
+                    while (dtr.Read())
+                    {
+                        var Json = dtr["Codigo"].ToString();
+                        if (Json != string.Empty)
+                            code = JsonConvert.DeserializeObject<Code>(Json);
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new Exception(sqlEx.Message, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return code;
         }
 
     }

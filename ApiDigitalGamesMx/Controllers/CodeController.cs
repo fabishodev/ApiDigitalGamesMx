@@ -60,31 +60,55 @@ namespace ApiDigitalGamesMx.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("insertcode")]
-        public IActionResult InsertCode([FromBody] ApiProducts.Library.Models.InvCodigos value)
-        {
-            int id = 0;
-            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
-            using (ICode Code = Factorizador.CrearConexionServicioCode(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
-            {
-                id = Code.InsertCode(value.IdProducto, value.Codigo, value.Costo, value.Edicion);
+        //[HttpPost]
+        //[Route("insertcode")]
+        //public IActionResult InsertCode([FromBody] ApiProducts.Library.Models.InvCodigos value)
+        //{
+        //    int id = 0;
+        //    var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+        //    using (ICode Code = Factorizador.CrearConexionServicioCode(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+        //    {
+        //        id = Code.InsertCode(value.IdPedido, value.IdProducto, value.Codigo);
 
-                if (id > 0)
+        //        if (id > 0)
+        //        {
+        //            return Ok(new
+        //            {
+        //                Id = id,
+        //                Estatus = "success",
+        //                Code = 200,
+        //                Msg = "Codigo insertado correctamente!!"
+
+        //            });
+        //        }
+        //    }
+
+        //    return NotFound();
+
+        //}
+
+        [HttpPost]
+        [Route("pedido")]
+        //[Authorize]
+        public IActionResult GetCodePedido([FromBody] ApiProducts.Library.Models.Code value)
+        {
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            //var ConnectionStringAzure = _configuration.GetValue<string>("ConnectionStringAzure");
+            using (ApiProducts.Library.Interfaces.ICode codigo = ApiProducts.Library.Interfaces.Factorizador.CrearConexionServicioCode(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            {
+                ApiProducts.Library.Models.Code objusr = codigo.GetCodePedido(value.Id);
+
+                if (objusr.Id > 0)
                 {
                     return Ok(new
                     {
-                        Id = id,
-                        Estatus = "success",
-                        Code = 200,
-                        Msg = "Codigo insertado correctamente!!"
-
+                        Codigo = objusr
                     });
                 }
+
+                return NotFound();
+
             }
-
-            return NotFound();
-
         }
 
     }
