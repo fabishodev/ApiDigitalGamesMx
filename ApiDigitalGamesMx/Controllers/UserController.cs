@@ -60,5 +60,30 @@ namespace ApiDigitalGamesMx.Controllers
 
             return NotFound();
         }
+
+        [HttpPost]
+        [Route("detail")]
+        public IActionResult GetUserId([FromBody] ApiProducts.Library.Models.UserMin value)
+        {
+            
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            using (IUser user = Factorizador.CrearConexionServicioUser(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            {
+                ApiProducts.Library.Models.User objusr = user.GetUser(value.Id);
+
+                if (objusr.Id > 0)
+                {
+                    return Ok(new
+                    {
+                        User = objusr
+                    });
+                }
+
+                
+            }
+
+            return NotFound();
+
+        }
     }
 }

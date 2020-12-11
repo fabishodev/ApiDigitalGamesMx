@@ -20,7 +20,7 @@ namespace ApiDigitalGamesMx.Controllers
             _configuration = configuration;
         }
 
-        //https://localhost:44369/api/products
+        //https://localhost:44369/api/menu
         // GET: api/<UserController>
         [HttpGet]
         //[Route("products")]
@@ -36,20 +36,20 @@ namespace ApiDigitalGamesMx.Controllers
             return listMenus;
         }
 
-        //https://localhost:44369/api/code
+        //https://localhost:44369/api/menu/manager
         // GET: api/<UserController>
         [HttpGet]
         [Route("{rol}")]
         //[Authorize]
-        public IEnumerable<ApiProducts.Library.Models.Menu> GetOrderDetail(int id)//[FromBody] ApiProducts.Library.Models.PedidoCabMin value
+        public IEnumerable<ApiProducts.Library.Models.Menu> GetOrderDetail(string rol)//[FromBody] ApiProducts.Library.Models.PedidoCabMin value
         {
-            List<ApiProducts.Library.Models.PedidoDet> listOrders = new List<ApiProducts.Library.Models.PedidoDet>();
+            List<ApiProducts.Library.Models.Menu> listMenus = new List<ApiProducts.Library.Models.Menu>();
             var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
-            using (IOrder order = Factorizador.CrearConexionServicioOrder(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            using (IMenu menu = Factorizador.CrearConexionServicioMenu(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
             {
-                listOrders = order.GetOrderDetail(id);
+                listMenus = menu.GetMenusRol(rol);
             }
-            return listOrders;
+            return listMenus;
         }
     }
 }

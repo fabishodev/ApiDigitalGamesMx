@@ -126,7 +126,55 @@ namespace ApiProducts.Library.Services
             return list;
         }
 
-       
+        public List<Menu> GetMenusRol(string rol)
+        {
+            List<Menu> list = new List<Menu>();
+            Menu menus = new Menu();
+            List<SqlParameter> _Parametros = new List<SqlParameter>();
+            try
+            {
+                _Parametros.Add(new SqlParameter("@Rol", rol));
+                sql.PrepararProcedimiento("dbo.[MENU.GetAllJSONRol]", _Parametros);
+                DataTableReader dtr = sql.EjecutarTableReader(CommandType.StoredProcedure);
+                if (dtr.HasRows)
+                {
+                    while (dtr.Read())
+                    {
+                        var Json = dtr["Menus"].ToString();
+                        if (Json != string.Empty)
+                        {
+                            JArray arr = JArray.Parse(Json);
+                            foreach (JObject jsonOperaciones in arr.Children<JObject>())
+                            {
+                                //user = JsonConvert.DeserializeObject<User>(jsonOperaciones);
+                                list.Add(new Menu()
+                                {
+                                    Id = Convert.ToInt32(jsonOperaciones["id"].ToString()),
+                                    Title = jsonOperaciones["title"].ToString(),
+                                    Icon = jsonOperaciones["icon"].ToString(),
+                                    Route = jsonOperaciones["route"].ToString(),
+                                    Rol = jsonOperaciones["rol"].ToString()
+                                });
+
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new Exception(sqlEx.Message, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return list;
+        }
+
+
 
 
 

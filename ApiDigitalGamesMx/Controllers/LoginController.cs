@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using ApiDigitalGamesMx.Helpers;
+using ApiProducts.Library.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ namespace ApiDigitalGamesMx.Controllers
     {
 
         readonly IConfiguration _configuration;
+        readonly IToken tokenService;
         public LoginController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -27,6 +29,7 @@ namespace ApiDigitalGamesMx.Controllers
         [HttpPost]
         public ApiProducts.Library.Models.User Login([FromBody] ApiProducts.Library.Models.UserMin user)
         {
+
             var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
             //var ConnectionStringAzure = _configuration.GetValue<string>("ConnectionStringAzure");
             using (ApiProducts.Library.Interfaces.ILogin Login = ApiProducts.Library.Interfaces.Factorizador.CrearConexionServicioLogin(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
@@ -53,7 +56,12 @@ namespace ApiDigitalGamesMx.Controllers
                     );
 
                     var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-                    objusr.Jwt = tokenString;
+                    //var accessToken = tokenService.GenerateAccessToken(claims);
+                    var refreshToken = tokenService.GenerateRefreshToken();
+
+                    objusr.Token = tokenString;
+                    objusr.RefreshToken = refreshToken;
+
                 }
                 return objusr;
             }

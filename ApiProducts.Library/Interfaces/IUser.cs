@@ -8,5 +8,7 @@ namespace ApiProducts.Library.Interfaces
     {
         List<Models.User> GetUsers();
         int InsertUser(string email, string password, string nombreCompleto, string rol);
+
+        Models.User GetUser(int id);
     }
 }

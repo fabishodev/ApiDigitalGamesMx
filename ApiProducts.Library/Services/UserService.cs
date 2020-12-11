@@ -1,6 +1,7 @@
 ﻿using ApiProducts.Library.Helpers;
 using ApiProducts.Library.Interfaces;
 using ApiProducts.Library.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -151,6 +152,37 @@ namespace ApiProducts.Library.Services
             {
                 throw new Exception(ex.Message, ex);
             }
+        }
+
+        public User GetUser(int id)
+        {
+            User user = new User();
+            List<SqlParameter> _Parametros = new List<SqlParameter>();
+            try
+            {
+                _Parametros.Add(new SqlParameter("@id", id));
+                sql.PrepararProcedimiento("dbo.[USER.GetJSONId]", _Parametros);
+                DataTableReader dtr = sql.EjecutarTableReader(CommandType.StoredProcedure);
+                if (dtr.HasRows)
+                {
+                    while (dtr.Read())
+                    {
+                        var Json = dtr["Usuario"].ToString();
+                        if (Json != string.Empty)
+                            user = JsonConvert.DeserializeObject<User>(Json);
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new Exception(sqlEx.Message, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return user;
         }
 
     }

@@ -15,7 +15,8 @@ namespace ApiProducts.Library.Models
         public string NombreCompleto { get; set; }
         public string Rol { get; set; }
         public DateTime FechaCreacion { get; set; }
-        public string Jwt { get; set; }
+        public string Token { get; set; }
+        public string RefreshToken { get; set; }
     }
    
 }
