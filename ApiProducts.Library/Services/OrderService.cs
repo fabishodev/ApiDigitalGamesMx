@@ -16,6 +16,9 @@ namespace ApiProducts.Library.Services
         #region Constructor y Variables
         SqlConexion sql = null;
         ConnectionType type = ConnectionType.NONE;
+        ProductService serviceProduct = new ProductService();
+        Functions functions = new Functions();
+        CodeService serviceCode = new CodeService();
 
         OrderService()
         {
@@ -105,7 +108,7 @@ namespace ApiProducts.Library.Services
                                     Cancelado = Convert.ToBoolean(jsonOperaciones["cancelado"].ToString()),
                                     FechaCancelacion = DateTime.Parse(jsonOperaciones["fechaCancelacion"].ToString()),
                                     MotivoCancelacion = jsonOperaciones["motivoCancelacion"].ToString(),
-                                    Nota = jsonOperaciones["nota"].ToString(),                                   
+                                    Nota = jsonOperaciones["nota"].ToString(),
                                     FechaPedido = DateTime.Parse(jsonOperaciones["fechaPedido"].ToString())
                                 });
 
@@ -188,6 +191,8 @@ namespace ApiProducts.Library.Services
             }
         }
 
+
+
         public List<PedidoDet> GetOrderDetail(int id)
         {
             List<PedidoDet> list = new List<PedidoDet>();
@@ -203,7 +208,7 @@ namespace ApiProducts.Library.Services
                     while (dtr.Read())
                     {
                         var Json = dtr["DetallePedido"].ToString();
-                       
+
 
                         if (Json != string.Empty)
                         {
@@ -237,6 +242,42 @@ namespace ApiProducts.Library.Services
             }
 
             return list;
+        }
+
+        public int InsertDetail(int idPedido, int idProducto, int idCodigo, int cantidad, decimal precioVenta)
+        {
+            int IdOrder = 0;
+            List<SqlParameter> _Parametros = new List<SqlParameter>();
+            try
+            {
+                _Parametros.Add(new SqlParameter("@IdPedido", idPedido));
+                _Parametros.Add(new SqlParameter("@IdProducto", idProducto));
+                _Parametros.Add(new SqlParameter("@IdCodigo", idCodigo));
+                _Parametros.Add(new SqlParameter("@Cantidad", cantidad));
+                _Parametros.Add(new SqlParameter("@Subtotal", precioVenta));
+                SqlParameter valreg = new SqlParameter();
+                valreg.ParameterName = "@Id";
+                valreg.DbType = DbType.Int32;
+                valreg.Direction = ParameterDirection.Output;
+                _Parametros.Add(valreg);
+
+                sql.PrepararProcedimiento("dbo.[ORDER.InsertDet]", _Parametros);
+                IdOrder = int.Parse(sql.EjecutarProcedimientoOutput().ToString());
+
+
+
+                return IdOrder;
+
+
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new Exception(sqlEx.Message, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
     }
 }

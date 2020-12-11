@@ -39,7 +39,7 @@ namespace ApiDigitalGamesMx.Controllers
                     var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
                     var claims = new List<Claim>
-                            {
+                            {                      
                                 new Claim(ClaimTypes.Email, user.Email),
                                 new Claim(ClaimTypes.Role, objusr.Rol)
                             };

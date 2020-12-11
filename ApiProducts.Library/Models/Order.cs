@@ -37,13 +37,14 @@ namespace ApiProducts.Library.Models
 
     public class PedidoDetMin
     {
+        public int IdPedido { get; set; }
         public int IdProducto { get; set; }
+        public int Cantidad { get; set; }
     }
 
     public class opePedidoDet : PedidoDetMin
     {
         public int Id { get; set; }
-        public int IdPedido { get; set; }
         public int IdProduct { get; set; }
         public int IdCodigo { get; set; }
         public decimal SubTotal { get; set; }
@@ -53,7 +54,6 @@ namespace ApiProducts.Library.Models
     public class PedidoDet : PedidoDetMin
     {
         public int Id { get; set; }
-        public int IdPedido { get; set; }
         public string Titulo { get; set; }
         public string Codigo { get; set; }
         public decimal SubTotal { get; set; }

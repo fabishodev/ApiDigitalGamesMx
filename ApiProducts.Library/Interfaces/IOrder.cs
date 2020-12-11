@@ -10,5 +10,6 @@ namespace ApiProducts.Library.Interfaces
         Models.PedidoCab GetOrder(int id);
         int InsertOrder(int idCliente, decimal total, string formaPago, string nota);
         List<Models.PedidoDet> GetOrderDetail(int id);
+        int InsertDetail(int idPedido, int idProducto, int idCodigo, int cantidad, decimal precioVenta);
     }
 }

@@ -16,8 +16,9 @@ namespace ApiProducts.Library.Services
         #region Constructor y Variables
         SqlConexion sql = null;
         ConnectionType type = ConnectionType.NONE;
+        Functions functions;
 
-        ProductService()
+        public ProductService()
         {
 
         }
@@ -108,8 +109,8 @@ namespace ApiProducts.Library.Services
                                     Imagen2 = jsonOperaciones["imagen2"].ToString(),
                                     Imagen3 = jsonOperaciones["imagen3"].ToString(),
                                     UrlVideo = jsonOperaciones["urlVideo"].ToString(),
-                                    Costo = Convert.ToDecimal(jsonOperaciones["imagen"].ToString()),
-                                    PrecioVenta = Convert.ToDecimal(jsonOperaciones["imagen"].ToString()),
+                                    Costo = Convert.ToDecimal(jsonOperaciones["costo"].ToString()),
+                                    PrecioVenta = Convert.ToDecimal(jsonOperaciones["precioVenta"].ToString()),
                                     Edicion = jsonOperaciones["edicion"].ToString(),
                                     FechaLanzamiento = jsonOperaciones["fechaLanzamiento"].ToString(),
                                     FechaActualizacion = DateTime.Parse(jsonOperaciones["fechaActualizacion"].ToString()),
@@ -171,6 +172,7 @@ namespace ApiProducts.Library.Services
         {
             int IdProduct = 0;
             List<SqlParameter> _Parametros = new List<SqlParameter>();
+            sku = functions.RandomSku();
             try
             {
                 _Parametros.Add(new SqlParameter("@sku", sku));

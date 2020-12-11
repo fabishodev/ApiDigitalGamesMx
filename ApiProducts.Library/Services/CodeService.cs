@@ -18,7 +18,7 @@ namespace ApiProducts.Library.Services
         SqlConexion sql = null;
         ConnectionType type = ConnectionType.NONE;
 
-        CodeService()
+        public CodeService()
         {
 
         }
