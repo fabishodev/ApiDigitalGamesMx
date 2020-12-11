@@ -111,5 +111,22 @@ namespace ApiDigitalGamesMx.Controllers
             }
         }
 
+        //https://localhost:44369/api/code/plataforma
+        // GET: api/<UserController>
+        //[HttpPost]
+        [HttpGet]
+        [Route("cliente/{id}")]
+        //[Authorize]
+        public IEnumerable<ApiProducts.Library.Models.Code> GetProductsPlataforma(int id)//[FromBody] ApiProducts.Library.Models.ProductoMin value
+        {
+            List<ApiProducts.Library.Models.Code> listCodes = new List<ApiProducts.Library.Models.Code>();
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            using (ICode codigo = Factorizador.CrearConexionServicioCode(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            {
+                listCodes = codigo.GetCodesCliente(id);
+            }
+            return listCodes;
+        }
+
     }
 }

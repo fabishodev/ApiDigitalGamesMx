@@ -14,5 +14,7 @@ namespace ApiProducts.Library.Interfaces
         int InsertCode(int idPedido, int idProducto, string codigo);
 
         Models.Code GetCodePedido(int id);
+
+        List<Models.Code> GetCodesCliente(int id);
     }
 }

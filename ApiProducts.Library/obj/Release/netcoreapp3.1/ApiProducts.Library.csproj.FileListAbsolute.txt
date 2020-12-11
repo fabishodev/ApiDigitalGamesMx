@@ -1,0 +1,9 @@
+C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiProducts.Library\bin\Release\netcoreapp3.1\ApiProducts.Library.deps.json
+C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiProducts.Library\bin\Release\netcoreapp3.1\ApiProducts.Library.dll
+C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiProducts.Library\bin\Release\netcoreapp3.1\ApiProducts.Library.pdb
+C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiProducts.Library\obj\Release\netcoreapp3.1\ApiProducts.Library.csprojAssemblyReference.cache
+C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiProducts.Library\obj\Release\netcoreapp3.1\ApiProducts.Library.AssemblyInfoInputs.cache
+C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiProducts.Library\obj\Release\netcoreapp3.1\ApiProducts.Library.AssemblyInfo.cs
+C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiProducts.Library\obj\Release\netcoreapp3.1\ApiProducts.Library.csproj.CoreCompileInputs.cache
+C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiProducts.Library\obj\Release\netcoreapp3.1\ApiProducts.Library.dll
+C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiProducts.Library\obj\Release\netcoreapp3.1\ApiProducts.Library.pdb

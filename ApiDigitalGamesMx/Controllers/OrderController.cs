@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ApiDigitalGamesMx.Controllers
 {
@@ -24,7 +25,7 @@ namespace ApiDigitalGamesMx.Controllers
         //https://localhost:44369/api/code
         // GET: api/<UserController>
         [HttpGet]
-        //[Route("products")]
+        //[Route("order")]
         //[Authorize]
         public IEnumerable<ApiProducts.Library.Models.PedidoCab> GetOrders()
         {
@@ -37,16 +38,16 @@ namespace ApiDigitalGamesMx.Controllers
             return listOrders;
         }
 
-        [HttpPost]
-        //[Route("")]
+        [HttpGet]
+        [Route("{id}")]
         //[Authorize]
-        public IActionResult GetOrder([FromBody] ApiProducts.Library.Models.PedidoCab value)
+        public IActionResult GetOrder(int id)//[FromBody] ApiProducts.Library.Models.PedidoCab value
         {
             var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
             //var ConnectionStringAzure = _configuration.GetValue<string>("ConnectionStringAzure");
             using (ApiProducts.Library.Interfaces.IOrder order = ApiProducts.Library.Interfaces.Factorizador.CrearConexionServicioOrder(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
             {
-                ApiProducts.Library.Models.PedidoCab objusr = order.GetOrder(value.Id);
+                ApiProducts.Library.Models.PedidoCab objusr = order.GetOrder(id);
 
                 if (objusr.Id > 0)
                 {
@@ -90,23 +91,23 @@ namespace ApiDigitalGamesMx.Controllers
 
         //https://localhost:44369/api/code
         // GET: api/<UserController>
-        [HttpPost]
-        [Route("detail")]
+        [HttpGet]
+        [Route("detail/{id}")]
         //[Authorize]
-        public IEnumerable<ApiProducts.Library.Models.PedidoDet> GetOrderDetail([FromBody] ApiProducts.Library.Models.PedidoCabMin value)
+        public IEnumerable<ApiProducts.Library.Models.PedidoDet> GetOrderDetail(int id)//[FromBody] ApiProducts.Library.Models.PedidoCabMin value
         {
             List<ApiProducts.Library.Models.PedidoDet> listOrders = new List<ApiProducts.Library.Models.PedidoDet>();
             var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
             using (IOrder order = Factorizador.CrearConexionServicioOrder(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
             {
-                listOrders = order.GetOrderDetail(value.Id);
+                listOrders = order.GetOrderDetail(id);
             }
             return listOrders;
         }
 
         [HttpPost]
         [Route("insertorderdetail")]
-        public IActionResult InsertOrderDetail([FromBody] ApiProducts.Library.Models.PedidoDetMin value)
+        public IActionResult InsertOrderDetail(object value)
         {
             int id = 0;
             var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
@@ -114,16 +115,17 @@ namespace ApiDigitalGamesMx.Controllers
 
             int insertCodigo = 0;
             ApiProducts.Library.Models.Producto objProducto = new ApiProducts.Library.Models.Producto();
-            string json = @"[ {""idPedido"": 1, ""idProducto"": 1, ""cantidad"": 1 }]";
+            ApiProducts.Library.Models.PedidoCab objPedido = new ApiProducts.Library.Models.PedidoCab();
+            //string json = @"[ {""idPedido"": 1, ""idProducto"": 1, ""cantidad"": 1 }]";
             //Deserialize the data
-            var obj = JsonConvert.DeserializeObject<List<ApiProducts.Library.Models.PedidoDetMin>>(json);
+            var obj = JsonConvert.DeserializeObject<List<ApiProducts.Library.Models.PedidoDetMin>>(value.ToString());
             //Loop thrrouch values and save the details into database
             foreach (ApiProducts.Library.Models.PedidoDetMin p in obj)
             {
 
                 using (ICode Code = Factorizador.CrearConexionServicioCode(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
                 {
-                    insertCodigo = Code.InsertCode(value.IdPedido, value.IdProducto, Functions.RandomCodigo());
+                    insertCodigo = Code.InsertCode(p.IdPedido, p.IdProducto, Functions.RandomCodigo());
 
                 }
 
@@ -140,16 +142,22 @@ namespace ApiDigitalGamesMx.Controllers
 
                 }
 
+                using (IOrder order = Factorizador.CrearConexionServicioOrder(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+                {
+                     objPedido = order.GetOrder(p.IdPedido);               
+
+                }
+
             }
 
             if (id > 0)
             {
                 return Ok(new
                 {
-                    Id = id,
+                    Id = objPedido,
                     Estatus = "success",
                     Code = 200,
-                    Msg = "Pedido insertado correctamente!!"
+                    Msg = "Detalle del pedido insertado correctamente!!"
 
                 });
             }

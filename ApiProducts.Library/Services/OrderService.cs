@@ -220,10 +220,12 @@ namespace ApiProducts.Library.Services
                                 {
                                     Id = Convert.ToInt32(jsonOperaciones["id"].ToString()),
                                     IdProducto = Convert.ToInt32(jsonOperaciones["idProducto"].ToString()),
+                                    IdPedido = Convert.ToInt32(jsonOperaciones["idPedido"].ToString()),
                                     Titulo = jsonOperaciones["titulo"].ToString(),
                                     Codigo = jsonOperaciones["codigo"].ToString(),
                                     SubTotal = Convert.ToDecimal(jsonOperaciones["subtotal"].ToString()),
-                                    Fecha = DateTime.Parse(jsonOperaciones["fecha"].ToString())
+                                    Fecha = DateTime.Parse(jsonOperaciones["fecha"].ToString()),
+                                    Cantidad = Convert.ToInt32(jsonOperaciones["cantidad"].ToString()),
                                 });
 
                             }
@@ -279,5 +281,7 @@ namespace ApiProducts.Library.Services
                 throw new Exception(ex.Message, ex);
             }
         }
+
+       
     }
 }

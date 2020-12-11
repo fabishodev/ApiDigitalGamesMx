@@ -16,7 +16,7 @@ namespace ApiProducts.Library.Services
         #region Constructor y Variables
         SqlConexion sql = null;
         ConnectionType type = ConnectionType.NONE;
-        Functions functions;
+        Functions functions = new Functions();
 
         public ProductService()
         {
@@ -172,7 +172,7 @@ namespace ApiProducts.Library.Services
         {
             int IdProduct = 0;
             List<SqlParameter> _Parametros = new List<SqlParameter>();
-            sku = functions.RandomSku();
+            //sku = functions.RandomSku();
             try
             {
                 _Parametros.Add(new SqlParameter("@sku", sku));
@@ -464,6 +464,45 @@ namespace ApiProducts.Library.Services
 
                 sql.PrepararProcedimiento("dbo.[PRODUCT.InsertWishList]", _Parametros);
                 IdProduct = int.Parse(sql.EjecutarProcedimientoOutput().ToString());
+                return IdProduct;
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new Exception(sqlEx.Message, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public int UpdateProduct(int id, string sku, string titulo, string descripcion, int idPLataforma, int idGenero, int idClasificacion, string urlVideo, decimal costo, decimal precioVenta, string edicion, string fechaLanzamiento)
+        {
+            int IdProduct = 0;
+            List<SqlParameter> _Parametros = new List<SqlParameter>();
+            //sku = functions.RandomSku();
+            try
+            {
+                _Parametros.Add(new SqlParameter("@id", id));
+                _Parametros.Add(new SqlParameter("@sku", sku));
+                _Parametros.Add(new SqlParameter("@titulo", titulo));
+                _Parametros.Add(new SqlParameter("@descripcion", descripcion));
+                _Parametros.Add(new SqlParameter("@idPlataforma", idPLataforma));
+                _Parametros.Add(new SqlParameter("@idGenero", idGenero));
+                _Parametros.Add(new SqlParameter("@idClasificacion", idClasificacion));
+                _Parametros.Add(new SqlParameter("@urlVideo", urlVideo));
+                _Parametros.Add(new SqlParameter("@costo", costo));
+                _Parametros.Add(new SqlParameter("@precioVenta", precioVenta));
+                _Parametros.Add(new SqlParameter("@edicion", edicion));
+                _Parametros.Add(new SqlParameter("@fechaLanzamiento", fechaLanzamiento));
+                //SqlParameter valreg = new SqlParameter();
+                //valreg.ParameterName = "@Id";
+                //valreg.DbType = DbType.Int32;
+                //valreg.Direction = ParameterDirection.Output;
+                //_Parametros.Add(valreg);
+
+                sql.PrepararProcedimiento("dbo.[PRODUCT.Update]", _Parametros);
+                IdProduct = int.Parse(sql.EjecutarProcedimiento().ToString());
                 return IdProduct;
             }
             catch (SqlException sqlEx)

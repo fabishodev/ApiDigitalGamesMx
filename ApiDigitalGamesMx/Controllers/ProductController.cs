@@ -35,16 +35,16 @@ namespace ApiDigitalGamesMx.Controllers
             return listProducts;
         }
 
-        [HttpPost]
-        //[Route("")]
+        [HttpGet]
+        [Route("{id}")]
         //[Authorize]
-        public IActionResult GetProduct([FromBody] ApiProducts.Library.Models.CatProductos value)
+        public IActionResult GetProduct(int id)//[FromBody] ApiProducts.Library.Models.CatProductos value
         {
             var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
             //var ConnectionStringAzure = _configuration.GetValue<string>("ConnectionStringAzure");
-            using (ApiProducts.Library.Interfaces.IProduct producto = ApiProducts.Library.Interfaces.Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            using (IProduct producto = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
             {
-                ApiProducts.Library.Models.Producto objusr = producto.GetProduct(value.Id);
+                ApiProducts.Library.Models.Producto objusr = producto.GetProduct(id);
 
                 if (objusr.Id > 0)
                 {
@@ -67,7 +67,7 @@ namespace ApiDigitalGamesMx.Controllers
             var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
             using (IProduct Product = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
             {
-                id = Product.InsertProduct(value.Sku, value.Titulo, value.Descripcion, value.IdPlataforma, value.IdGenero, value.IdGenero, value.Imagen, value.Imagen2, value.Imagen3, value.UrlVideo, value.Costo, value.PrecioVenta, value.Edicion, value.FechaLanzamiento.ToString());
+                id = Product.InsertProduct(value.Sku, value.Titulo, value.Descripcion, value.IdPlataforma, value.IdGenero, value.idClasificacion, value.Imagen, value.Imagen2, value.Imagen3, value.UrlVideo, value.Costo, value.PrecioVenta, value.Edicion, value.FechaLanzamiento.ToString());
 
                 if (id > 0)
                 {
@@ -169,6 +169,33 @@ namespace ApiDigitalGamesMx.Controllers
                         Estatus = "success",
                         Code = 200,
                         Msg = "Producto insertado a WishList correctamnete!!"
+
+                    });
+                }
+            }
+
+            return NotFound();
+
+        }
+
+        [HttpPost]
+        [Route("update")]
+        public IActionResult UpdateProduct([FromBody] ApiProducts.Library.Models.CatProductos value)
+        {
+            int id = 0;
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            using (IProduct Product = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            {
+                id = Product.UpdateProduct(value.Id, value.Sku, value.Titulo, value.Descripcion, value.IdPlataforma, value.IdGenero, value.idClasificacion, value.UrlVideo, value.Costo, value.PrecioVenta, value.Edicion, value.FechaLanzamiento.ToString());
+
+                if (id < 0)
+                {
+                    return Ok(new
+                    {
+                        Id = value.Id,
+                        Estatus = "success",
+                        Code = 200,
+                        Msg = "Producto actualizado correctamente!!"
 
                     });
                 }

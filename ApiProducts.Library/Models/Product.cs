@@ -34,8 +34,11 @@ namespace ApiProducts.Library.Models
         public string Sku { get; set; }
         public string Titulo { get; set; }
         public string Descripcion { get; set; }
+        public int IdPlataforma { get; set; }
         public string Plataforma { get; set; }
+        public int IdGenero { get; set; }
         public string Genero { get; set; }
+        public int idClasificacion { get; set; }
         public string Clasificacion { get; set; }
         public string Imagen { get; set; }
         public string Imagen2 { get; set; }

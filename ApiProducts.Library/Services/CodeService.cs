@@ -100,15 +100,18 @@ namespace ApiProducts.Library.Services
                                 {
                                     Id = Convert.ToInt32(jsonOperaciones["id"].ToString()),
                                     IdPedido = Convert.ToInt32(jsonOperaciones["idPedido"].ToString()),
+                                    IdCliente = Convert.ToInt32(jsonOperaciones["idCliente"].ToString()),
                                     Titulo = jsonOperaciones["titulo"].ToString(),                                   
                                     Plataforma = jsonOperaciones["plataforma"].ToString(),
                                     Genero = jsonOperaciones["genero"].ToString(),
                                     Codigo = jsonOperaciones["codigo"].ToString(),
                                     Costo = Convert.ToDecimal(jsonOperaciones["costo"].ToString()),
+                                    PrecioVenta  = Convert.ToDecimal(jsonOperaciones["precioVenta"].ToString()),
                                     Edicion = jsonOperaciones["edicion"].ToString(),
                                     Estatus = Convert.ToBoolean(jsonOperaciones["estatus"].ToString()),
                                     FechaActualizacion = DateTime.Parse(jsonOperaciones["fechaActualizacion"].ToString()),
-                                    FechaCreacion = DateTime.Parse(jsonOperaciones["fechaCreacion"].ToString())
+                                    FechaCreacion = DateTime.Parse(jsonOperaciones["fechaCreacion"].ToString()),
+                                    Imagen = jsonOperaciones["imagen"].ToString()
                                 });
 
                             }
@@ -221,6 +224,63 @@ namespace ApiProducts.Library.Services
             }
 
             return code;
+        }
+
+        public List<Code> GetCodesCliente(int id)
+        {
+            List<Code> list = new List<Code>();
+            Code code = new Code();
+            List<SqlParameter> _Parametros = new List<SqlParameter>();
+            try
+            {
+                _Parametros.Add(new SqlParameter("@id", id));
+                sql.PrepararProcedimiento("dbo.[CODE.GetAllJSONCliente]", _Parametros);
+                DataTableReader dtr = sql.EjecutarTableReader(CommandType.StoredProcedure);
+                if (dtr.HasRows)
+                {
+                    while (dtr.Read())
+                    {
+                        var Json = dtr["Codigos"].ToString();
+                        if (Json != string.Empty)
+                        {
+                            JArray arr = JArray.Parse(Json);
+                            foreach (JObject jsonOperaciones in arr.Children<JObject>())
+                            {
+                                //user = JsonConvert.DeserializeObject<User>(jsonOperaciones);
+                                list.Add(new Code()
+                                {
+                                    Id = Convert.ToInt32(jsonOperaciones["id"].ToString()),
+                                    IdPedido = Convert.ToInt32(jsonOperaciones["idPedido"].ToString()),
+                                    IdCliente = Convert.ToInt32(jsonOperaciones["idCliente"].ToString()),
+                                    Titulo = jsonOperaciones["titulo"].ToString(),
+                                    Plataforma = jsonOperaciones["plataforma"].ToString(),
+                                    Genero = jsonOperaciones["genero"].ToString(),
+                                    Codigo = jsonOperaciones["codigo"].ToString(),
+                                    Costo = Convert.ToDecimal(jsonOperaciones["costo"].ToString()),
+                                    PrecioVenta = Convert.ToDecimal(jsonOperaciones["precioVenta"].ToString()),
+                                    Edicion = jsonOperaciones["edicion"].ToString(),
+                                    Estatus = Convert.ToBoolean(jsonOperaciones["estatus"].ToString()),
+                                    FechaActualizacion = DateTime.Parse(jsonOperaciones["fechaActualizacion"].ToString()),
+                                    FechaCreacion = DateTime.Parse(jsonOperaciones["fechaCreacion"].ToString()),
+                                    Imagen = jsonOperaciones["imagen"].ToString()
+                                });
+
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new Exception(sqlEx.Message, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return list;
         }
 
     }

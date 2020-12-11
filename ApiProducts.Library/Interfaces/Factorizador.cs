@@ -114,5 +114,26 @@ namespace ApiProducts.Library.Interfaces
 
             return nuevoMotor;
         }
+
+        public static IMenu CrearConexionServicioMenu(Models.ConnectionType type, string connectionString)
+        {
+            IMenu nuevoMotor = null; ;
+            switch (type)
+            {
+                case Models.ConnectionType.NONE:
+                    break;
+                case Models.ConnectionType.MSSQL:
+                    SqlConexion sql = SqlConexion.Conectar(connectionString);
+                    nuevoMotor = MenuService.CrearInstanciaSQL(sql);
+                    break;
+                case Models.ConnectionType.MYSQL:
+
+                    break;
+                default:
+                    break;
+            }
+
+            return nuevoMotor;
+        }
     }
 }

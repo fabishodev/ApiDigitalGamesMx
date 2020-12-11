@@ -19,5 +19,7 @@ namespace ApiProducts.Library.Interfaces
 
         int InsertProductWishList(int idCliente, int idProducto);
 
+        int UpdateProduct(int id, string sku, string titulo, string descripcion, int idPLataforma, int idGenero, int idClasificacion, string urlVideo, decimal costo, decimal precioVenta, string edicion, string fechaLanzamiento);
+
     }
 }
