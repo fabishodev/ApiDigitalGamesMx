@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ApiProducts.Library.Services
 {
-    public class TokenService : IToken
+    public class TokenService : ITokenService
     {
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {

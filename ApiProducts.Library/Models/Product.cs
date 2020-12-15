@@ -47,9 +47,26 @@ namespace ApiProducts.Library.Models
         public decimal Costo { get; set; }
         public decimal PrecioVenta { get; set; }
         public string Edicion { get; set; }
-        public string  FechaLanzamiento { get; set; }
+        public string FechaLanzamiento { get; set; }
         public DateTime? FechaActualizacion { get; set; }
         public DateTime? FechaCreacion { get; set; }
+    }
+
+    public class ProductoMinRes
+    {
+        public int Id { get; set; }
+        public string IdCarrito { get; set; }
+    }
+
+    public class ProductoRes : ProductoMinRes
+    {
+        public string Titulo { get; set; }
+        public string Plataforma { get; set; }
+        public string Imagen { get; set; }
+        public string Imagen2 { get; set; }
+        public string Imagen3 { get; set; }
+        public decimal PrecioVenta { get; set; }
+        public string Edicion { get; set; }
     }
 
 
@@ -86,6 +103,12 @@ namespace ApiProducts.Library.Models
         public int Id { get; set; }
         public int IdCliente { get; set; }
         public int IdProducto { get; set; }
+    }
+
+    public class Imagen : ProductoMin
+    {
+        public string Campo { get; set; }
+        public string Ruta { get; set; }
     }
 
 }

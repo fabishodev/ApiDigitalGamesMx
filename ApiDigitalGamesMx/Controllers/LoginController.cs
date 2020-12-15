@@ -20,10 +20,11 @@ namespace ApiDigitalGamesMx.Controllers
     {
 
         readonly IConfiguration _configuration;
-        readonly IToken tokenService;
+        readonly ITokenService _tokenService;
         public LoginController(IConfiguration configuration)
         {
             _configuration = configuration;
+           // this._tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
         }
 
         [HttpPost]
@@ -42,7 +43,7 @@ namespace ApiDigitalGamesMx.Controllers
                     var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
                     var claims = new List<Claim>
-                            {                      
+                            {
                                 new Claim(ClaimTypes.Email, user.Email),
                                 new Claim(ClaimTypes.Role, objusr.Rol)
                             };
@@ -57,13 +58,21 @@ namespace ApiDigitalGamesMx.Controllers
 
                     var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
                     //var accessToken = tokenService.GenerateAccessToken(claims);
-                    var refreshToken = tokenService.GenerateRefreshToken();
+                    var refreshToken = Functions.GenerateRefreshToken();
 
                     objusr.Token = tokenString;
                     objusr.RefreshToken = refreshToken;
+                    objusr.RefreshTokenExpiryTime = DateTime.Now.AddDays(5);
 
+                    using (IUser User = Factorizador.CrearConexionServicioUser(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+                    {
+                        User.UpdateRefreshTokenExpiryTime(objusr);
+                    }
+                    return objusr;
                 }
-                return objusr;
+
+                return null;
+
             }
         }
 

@@ -103,7 +103,8 @@ namespace ApiProducts.Library.Services
                                     Contrasenia = jsonOperaciones["contrasenia"].ToString(),
                                     NombreCompleto = jsonOperaciones["nombreCompleto"].ToString(),
                                     Rol = jsonOperaciones["rol"].ToString(),
-                                    FechaCreacion = DateTime.Parse(jsonOperaciones["fechaCreacion"].ToString())
+                                    FechaCreacion = DateTime.Parse(jsonOperaciones["fechaCreacion"].ToString()),
+                                    RefreshToken = jsonOperaciones["refreshToken"].ToString()
                                 });
 
                             }
@@ -184,6 +185,53 @@ namespace ApiProducts.Library.Services
 
             return user;
         }
+
+       
+        public int UpdateRefreshTokenExpiryTime(User user)
+        {
+            List<SqlParameter> _Parametros = new List<SqlParameter>();
+            try
+            {
+                _Parametros.Add(new SqlParameter("@Id", user.Id));
+                _Parametros.Add(new SqlParameter("@RefreshToken", user.RefreshToken));
+                _Parametros.Add(new SqlParameter("@RefreshTokenExpiryTime", user.RefreshTokenExpiryTime));
+                sql.PrepararProcedimiento("dbo.[USER.UpdateRefreshTokenExpiryTime]", _Parametros);
+                return int.Parse(sql.EjecutarProcedimiento().ToString());
+                //return 0;
+                
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new Exception(sqlEx.Message, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public int UpdateRefreshToken(User user)
+        {
+            List<SqlParameter> _Parametros = new List<SqlParameter>();
+            try
+            {
+                _Parametros.Add(new SqlParameter("@Id", user.Id));
+                _Parametros.Add(new SqlParameter("@RefreshToken", (object)user.RefreshToken ?? DBNull.Value));
+                sql.PrepararProcedimiento("dbo.[USER.UpdateRefreshToken]", _Parametros);
+                
+                //return 0;
+                return int.Parse(sql.EjecutarProcedimiento().ToString());
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new Exception(sqlEx.Message, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
 
     }
 }

@@ -21,5 +21,12 @@ namespace ApiProducts.Library.Interfaces
 
         int UpdateProduct(int id, string sku, string titulo, string descripcion, int idPLataforma, int idGenero, int idClasificacion, string urlVideo, decimal costo, decimal precioVenta, string edicion, string fechaLanzamiento);
 
+        int DeleteProductWishlist(int id);
+
+        int UpdateImage(int id, string campo, string ruta);
+
+        int DeleteProduct(int id);
+       
+
     }
 }

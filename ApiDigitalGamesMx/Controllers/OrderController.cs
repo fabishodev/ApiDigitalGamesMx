@@ -106,10 +106,11 @@ namespace ApiDigitalGamesMx.Controllers
         }
 
         [HttpPost]
-        [Route("insertorderdetail")]
-        public IActionResult InsertOrderDetail(object value)
+        [Route("cart")]
+        public IActionResult InsertOrderDetail(ApiProducts.Library.Models.PedidoCabDet value)
         {
             int id = 0;
+            int idPedido = 0;
             var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
             var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(value);
 
@@ -118,33 +119,40 @@ namespace ApiDigitalGamesMx.Controllers
             ApiProducts.Library.Models.PedidoCab objPedido = new ApiProducts.Library.Models.PedidoCab();
             //string json = @"[ {""idPedido"": 1, ""idProducto"": 1, ""cantidad"": 1 }]";
             //Deserialize the data
-            var obj = JsonConvert.DeserializeObject<List<ApiProducts.Library.Models.PedidoDetMin>>(value.ToString());
+            //var obj = JsonConvert.DeserializeObject<List<ApiProducts.Library.Models.PedidoCabDet>>(value.ToString());
             //Loop thrrouch values and save the details into database
-            foreach (ApiProducts.Library.Models.PedidoDetMin p in obj)
+          
+
+            using (IOrder Order = Factorizador.CrearConexionServicioOrder(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
             {
+                idPedido = Order.InsertOrder(value.ClienteId, value.Total,"TC", "");
+            }
+
+            foreach (int p in value.ListaProductos)
+            {              
 
                 using (ICode Code = Factorizador.CrearConexionServicioCode(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
                 {
-                    insertCodigo = Code.InsertCode(p.IdPedido, p.IdProducto, Functions.RandomCodigo());
+                    insertCodigo = Code.InsertCode(idPedido, p , Functions.RandomCodigo());
 
                 }
 
                 using (IProduct producto = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
                 {
-                    objProducto = producto.GetProduct(p.IdProducto);
+                    objProducto = producto.GetProduct(p);
 
                 }
 
                 using (IOrder Order = Factorizador.CrearConexionServicioOrder(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
                 {
-                    id = Order.InsertDetail(p.IdPedido, p.IdProducto, insertCodigo, p.Cantidad, objProducto.PrecioVenta);
+                    id = Order.InsertDetail(idPedido, p, insertCodigo, 1, objProducto.PrecioVenta);
 
 
                 }
 
                 using (IOrder order = Factorizador.CrearConexionServicioOrder(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
                 {
-                     objPedido = order.GetOrder(p.IdPedido);               
+                    objPedido = order.GetOrder(idPedido);
 
                 }
 

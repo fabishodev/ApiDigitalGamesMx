@@ -59,4 +59,11 @@ namespace ApiProducts.Library.Models
         public decimal SubTotal { get; set; }
         public DateTime? Fecha { get; set; }
     }
+
+    public class PedidoCabDet
+    {
+        public int ClienteId { get; set; }
+        public List<int> ListaProductos { get; set; }
+        public decimal Total { get; set; }
+    }
 }

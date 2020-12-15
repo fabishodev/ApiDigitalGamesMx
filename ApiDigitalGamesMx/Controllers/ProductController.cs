@@ -6,6 +6,7 @@ using ApiProducts.Library.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace ApiDigitalGamesMx.Controllers
 {
@@ -188,7 +189,124 @@ namespace ApiDigitalGamesMx.Controllers
             {
                 id = Product.UpdateProduct(value.Id, value.Sku, value.Titulo, value.Descripcion, value.IdPlataforma, value.IdGenero, value.idClasificacion, value.UrlVideo, value.Costo, value.PrecioVenta, value.Edicion, value.FechaLanzamiento.ToString());
 
-                if (id < 0)
+                if (id > 0)
+                {
+                    return Ok(new
+                    {
+                        Id = value.Id,
+                        Estatus = "success",
+                        Code = 200,
+                        Msg = "Producto actualizado correctamente!!"
+
+                    });
+                }
+            }
+
+            return NotFound();
+
+        }
+
+        [HttpPost]
+        [Route("byids")]
+        public IEnumerable<ApiProducts.Library.Models.ProductoRes> GetProductsIds(object value)
+        {            
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(value);
+            List<ApiProducts.Library.Models.ProductoRes> list = new List<ApiProducts.Library.Models.ProductoRes>();           
+            ApiProducts.Library.Models.Producto objProducto = new ApiProducts.Library.Models.Producto();      
+            //string json = @"[ {""idPedido"": 1, ""idProducto"": 1, ""cantidad"": 1 }]";
+            //Deserialize the data
+            var obj = JsonConvert.DeserializeObject<List<ApiProducts.Library.Models.ProductoMinRes>>(value.ToString());
+            //Loop thrrouch values and save the details into database
+            foreach (ApiProducts.Library.Models.ProductoMinRes p in obj)
+            {
+                using (IProduct producto = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+                {
+                    objProducto = producto.GetProduct(p.Id);
+
+                    list.Add(new ApiProducts.Library.Models.ProductoRes()
+                    {
+                        Id = objProducto.Id,
+                        Titulo = objProducto.Titulo,                      
+                        Plataforma = objProducto.Plataforma,                        
+                        Imagen = objProducto.Imagen,
+                        Imagen2 = objProducto.Imagen2,
+                        Imagen3 = objProducto.Imagen3,                       
+                        PrecioVenta = objProducto.PrecioVenta,
+                        Edicion = objProducto.FechaLanzamiento,
+                        IdCarrito = p.IdCarrito
+
+                    });
+                }
+            }
+            return list;
+        }
+
+        [HttpPost]
+        [Route("wishlist/delete")]
+        public IActionResult DeleteProductWishList([FromBody] ApiProducts.Library.Models.WishListMin value)
+        {
+            int id = 0;
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            using (IProduct Product = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            {
+                id = Product.DeleteProductWishlist(value.Id);
+
+                if (id > 0)
+                {
+                    return Ok(new
+                    {
+                        Id = id,
+                        Estatus = "success",
+                        Code = 200,
+                        Msg = "Producto eliminado de WishList correctamnete!!"
+
+                    });
+                }
+            }
+
+            return NotFound();
+
+        }
+
+        [HttpPost]
+        [Route("delete")]
+        public IActionResult DeleteProduct([FromBody] ApiProducts.Library.Models.CatProductos value)
+        {
+            int id = 0;
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            using (IProduct Product = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            {
+                id = Product.DeleteProduct(value.Id);
+
+                if (id > 0)
+                {
+                    return Ok(new
+                    {
+                        Id = id,
+                        Estatus = "success",
+                        Code = 200,
+                        Msg = "Producto eliminado correctamnete!!"
+
+                    });
+                }
+            }
+
+            return NotFound();
+
+        }
+
+        [HttpPost]
+        [Route("image/update")]
+        public IActionResult UpdateImage([FromBody] ApiProducts.Library.Models.Imagen value)
+        {
+            int id = 0;
+            var ConnectionStringLocal = _configuration.GetValue<string>("CadenaConexion");
+            using (IProduct product = Factorizador.CrearConexionServicio(ApiProducts.Library.Models.ConnectionType.MSSQL, ConnectionStringLocal))
+            {
+                id = product.UpdateImage(value.Id, value.Campo, value.Ruta);
+
+                if (id > 0)
                 {
                     return Ok(new
                     {

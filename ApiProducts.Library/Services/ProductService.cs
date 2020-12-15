@@ -515,6 +515,91 @@ namespace ApiProducts.Library.Services
             }
         }
 
+        public int DeleteProductWishlist(int id)
+        {
+            int IdProduct = 0;
+            List<SqlParameter> _Parametros = new List<SqlParameter>();
+            //sku = functions.RandomSku();
+            try
+            {
+                _Parametros.Add(new SqlParameter("@id", id));
+                //SqlParameter valreg = new SqlParameter();
+                //valreg.ParameterName = "@Id";
+                //valreg.DbType = DbType.Int32;
+                //valreg.Direction = ParameterDirection.Output;
+                //_Parametros.Add(valreg);
+
+                sql.PrepararProcedimiento("dbo.[PRODUCT.DeletetWishList]", _Parametros);
+                IdProduct = int.Parse(sql.EjecutarProcedimiento().ToString());
+                return IdProduct;
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new Exception(sqlEx.Message, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public int DeleteProduct(int id)
+        {
+            int IdProduct = 0;
+            List<SqlParameter> _Parametros = new List<SqlParameter>();
+            //sku = functions.RandomSku();
+            try
+            {
+                _Parametros.Add(new SqlParameter("@id", id));
+                //SqlParameter valreg = new SqlParameter();
+                //valreg.ParameterName = "@Id";
+                //valreg.DbType = DbType.Int32;
+                //valreg.Direction = ParameterDirection.Output;
+                //_Parametros.Add(valreg);
+
+                sql.PrepararProcedimiento("dbo.[PRODUCT.Delete]", _Parametros);
+                IdProduct = int.Parse(sql.EjecutarProcedimiento().ToString());
+                return IdProduct;
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new Exception(sqlEx.Message, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public int UpdateImage(int id, string campo, string ruta)
+        {
+            int IdProduct = 0;
+            List<SqlParameter> _Parametros = new List<SqlParameter>();
+            try
+            {
+                _Parametros.Add(new SqlParameter("@id", id));
+                _Parametros.Add(new SqlParameter("@Campo", campo));
+                _Parametros.Add(new SqlParameter("@Ruta", ruta));
+                //SqlParameter valreg = new SqlParameter();
+                //valreg.ParameterName = "@Id";
+                //valreg.DbType = DbType.Int32;
+                //valreg.Direction = ParameterDirection.Output;
+                //_Parametros.Add(valreg);
+
+                sql.PrepararProcedimiento("dbo.[PRODUCT.UpdateImage]", _Parametros);
+                IdProduct = int.Parse(sql.EjecutarProcedimiento().ToString());
+                return IdProduct;
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new Exception(sqlEx.Message, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
 
     }
 }

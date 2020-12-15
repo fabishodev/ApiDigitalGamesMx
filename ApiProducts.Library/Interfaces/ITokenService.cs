@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ApiProducts.Library.Interfaces
 {
-    public interface IToken
+    public interface ITokenService
     {
         string GenerateAccessToken(IEnumerable<Claim> claims);
         string GenerateRefreshToken();
