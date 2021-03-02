@@ -925,6 +925,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {
             "C:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiProducts.Library\\ApiProducts.Library.csproj": {
               "projectPath": "C:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiProducts.Library\\ApiProducts.Library.csproj"
@@ -940,6 +941,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
@@ -976,7 +978,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }
