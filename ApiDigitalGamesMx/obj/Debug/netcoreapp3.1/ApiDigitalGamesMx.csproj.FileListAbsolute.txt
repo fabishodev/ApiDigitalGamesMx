@@ -1,6 +1,5 @@
 C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiDigitalGamesMx\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiDigitalGamesMx\bin\Debug\netcoreapp3.1\appsettings.json
-C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiDigitalGamesMx\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiDigitalGamesMx\bin\Debug\netcoreapp3.1\ApiDigitalGamesMx.exe
 C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiDigitalGamesMx\bin\Debug\netcoreapp3.1\ApiDigitalGamesMx.deps.json
 C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiDigitalGamesMx\bin\Debug\netcoreapp3.1\ApiDigitalGamesMx.runtimeconfig.json
@@ -35,4 +34,4 @@ C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiDigitalGamesMx\bin\Debug\ne
 C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiDigitalGamesMx\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiDigitalGamesMx\obj\Debug\netcoreapp3.1\ApiDigitalGamesMx.csproj.CoreCompileInputs.cache
 C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiDigitalGamesMx\obj\Debug\netcoreapp3.1\ApiDigitalGamesMx.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiDigitalGamesMx\bin\Debug\netcoreapp3.1\Properties\ServiceDependencies\apimtwdmfinalproject - Web Deploy\profile.arm.json
+C:\Users\fmaganaru\source\repos\ApiDigitalGamesMx\ApiDigitalGamesMx\obj\Debug\netcoreapp3.1\scopedcss\bundle\ApiDigitalGamesMx.styles.css
