@@ -10,12 +10,12 @@ COPY ["ApiProducts.Library/ApiProducts.Library.csproj", "./"]
 RUN dotnet restore "ApiProducts.Library/ApiProducts.Library.csproj"
 COPY . .
 
-RUN dotnet build "ApiDigitalGamesMx.csproj" -c Release -o /app/build
-RUN dotnet build "ApiProducts.Library.csproj" -c Release -o /app/build
+RUN dotnet build "ApiDigitalGamesMx/ApiDigitalGamesMx.csproj" -c Release -o /app/build
+RUN dotnet build "ApiProducts.Library/ApiProducts.Library.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ApiDigitalGamesMx.csproj" -c Release -o /app/publish
-RUN dotnet publish "ApiProducts.Library.csproj" -c Release -o /app/publish
+RUN dotnet publish "ApiDigitalGamesMx/ApiDigitalGamesMx.csproj" -c Release -o /app/publish
+RUN dotnet publish "ApiProducts.Library/ApiProducts.Library.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
