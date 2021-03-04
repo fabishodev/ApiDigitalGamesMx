@@ -4,8 +4,8 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["ApiDigitalGamesMx/ApiDigitalGamesMx.csproj", "ApiDigitalGamesMx/"]
-RUN dotnet restore "ApiDigitalGamesMx/ApiDigitalGamesMx.csproj"
+COPY ["ApiDigitalGamesMx.csproj", "./"]
+RUN dotnet restore "ApiDigitalGamesMx.csproj"
 COPY . .
 
 RUN dotnet build "ApiDigitalGamesMx.csproj" -c Release -o /app/build
