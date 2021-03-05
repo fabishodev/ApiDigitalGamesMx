@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cAXZAWgtf7Yf6oe5K9KJtfv8DKJ9ll8a3PFa36skp06F92gNxFdtTm5cShT7E0pULMhNcDYWW4E6o9KKwRzW2g==",
+  "dgSpecHash": "YZnCkIcWHdGTvncVm3T1ZqaaJCtB8JTsVKFS+/WmwXXxSjL2dY1Wwr54HxaNmEWz+QN4mDxByysSd98glCOJGA==",
   "success": true,
-  "projectFilePath": "c:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiDigitalGamesMx\\ApiDigitalGamesMx.csproj",
+  "projectFilePath": "C:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiDigitalGamesMx\\ApiDigitalGamesMx.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\fmaganaru\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.9\\microsoft.aspnetcore.authentication.jwtbearer.3.1.9.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
