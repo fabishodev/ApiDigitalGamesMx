@@ -269,7 +269,10 @@
         },
         "runtime": {
           "bin/placeholder/ApiProducts.Library.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -898,11 +901,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiDigitalGamesMx\\ApiDigitalGamesMx.csproj",
+      "projectUniqueName": "C:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiDigitalGamesMx\\ApiDigitalGamesMx.csproj",
       "projectName": "ApiDigitalGamesMx",
-      "projectPath": "c:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiDigitalGamesMx\\ApiDigitalGamesMx.csproj",
+      "projectPath": "C:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiDigitalGamesMx\\ApiDigitalGamesMx.csproj",
       "packagesPath": "C:\\Users\\fmaganaru\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiDigitalGamesMx\\obj\\",
+      "outputPath": "C:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiDigitalGamesMx\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -924,8 +927,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "c:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiProducts.Library\\ApiProducts.Library.csproj": {
-              "projectPath": "c:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiProducts.Library\\ApiProducts.Library.csproj"
+            "C:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiProducts.Library\\ApiProducts.Library.csproj": {
+              "projectPath": "C:\\Users\\fmaganaru\\source\\repos\\ApiDigitalGamesMx\\ApiProducts.Library\\ApiProducts.Library.csproj"
             }
           }
         }
